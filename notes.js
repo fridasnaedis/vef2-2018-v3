@@ -10,12 +10,11 @@ async function queryDB(query, values = []) {
   try {
     result = await client.query(query, values);
   } catch (err) {
-    console.log('Error');
     throw err;
   } finally {
     await client.end();
-    return result;
   }
+  return result;
 }
 
 /**
@@ -76,8 +75,6 @@ async function readOne(id) {
 async function update(id, { title, text, datetime } = {}) {
   const query = 'UPDATE notes SET datetime = $2, title =  $3, text = $4 WHERE id = $1 RETURNING *;';
   const values = [id, datetime, title, text];
-  console.log(values);
-  
   const result = await queryDB(query, values);
   return result;
 }
@@ -92,8 +89,8 @@ async function update(id, { title, text, datetime } = {}) {
 async function del(id) {
   const query = 'DELETE FROM notes WHERE id = $1;';
   const values = [id];
-  const result = queryDB(query, values);
-  return result;
+  const { rowCount } = queryDB(query, values);
+  return rowCount === 1;
 }
 
 module.exports = {
