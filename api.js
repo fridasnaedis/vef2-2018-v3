@@ -105,7 +105,7 @@ router.delete('/:id', catchErrors(async (req, res) => {
   const { id } = req.params;
   const response = await del(id);
   if (response) {
-    res.json({ response });
+    res.send();
     return;
   }
   res.status(404).json({ error: 'Note not found' });

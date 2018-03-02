@@ -89,7 +89,7 @@ async function update(id, { title, text, datetime } = {}) {
 async function del(id) {
   const query = 'DELETE FROM notes WHERE id = $1;';
   const values = [id];
-  const { rowCount } = queryDB(query, values);
+  const { rowCount } = await queryDB(query, values);
   return rowCount === 1;
 }
 
